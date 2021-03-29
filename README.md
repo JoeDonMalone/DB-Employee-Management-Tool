@@ -1,4 +1,4 @@
-# DB-Employee-Managemnet-Tool| :exclamation:  These works are licensed! [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  |
+# DB-Employee-Managemnet-Tool
 ## Description:
 - The project is intended to allow for easy management of a smaller scale Employee Database
 - ![Image of Yaktocat](./Assets/Images/CodeShot.JPG)
