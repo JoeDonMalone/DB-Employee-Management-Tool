@@ -3,13 +3,13 @@ CREATE DATABASE emt_db;
 
 USE emt_db;
 
-CREATE TABLE department (
+CREATE TABLE departments (
     id INT NOT NULL AUTO_INCREMENT ,
     name VARCHAR(30),
     PRIMARY KEY(id)
 );
 
-CREATE TABLE role (
+CREATE TABLE roles (
     id INT NOT NULL,
     title VARCHAR(30),
     salary DECIMAL(10,2),
@@ -22,7 +22,7 @@ CREATE TABLE role (
         ON DELETE CASCADE
 );
 
-CREATE TABLE employee (
+CREATE TABLE employees (
     id INT NOT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),

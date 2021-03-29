@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const table = require('console.table');
 require('dotenv').config();
 
 const connection = mysql.createConnection({
@@ -16,8 +17,18 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
+
+
+const getDepartments = () => {
+    connection.query('SELECT * FROM departments', (err, res) => {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.table(res);
+    connection.end();
+  });
+}
+
 connection.connect((err) => {
   if (err) throw err;
-  else {console.log('connection Success')}
-  // runSearch();
+  getDepartments();
 });
