@@ -13,11 +13,11 @@ CREATE TABLE roles (
     id INT NOT NULL,
     title VARCHAR(30),
     salary DECIMAL(10,2),
-    department_id INT NOT NULL,
+    departments_id INT NOT NULL,
     PRIMARY KEY(id),
-    INDEX dep_ind (department_id),
-    FOREIGN KEY (department_id)
-        REFERENCES department(id)
+    INDEX dep_ind (departments_id),
+    FOREIGN KEY (departments_id)
+        REFERENCES departments(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
@@ -26,12 +26,12 @@ CREATE TABLE employees (
     id INT NOT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    role_id INT NOT NULL,
-    manager_id INT NULL,
+    roles_id INT NOT NULL,
+    managers_id INT NULL,
     PRIMARY KEY(id),   
-    INDEX role_ind (role_id),
-    FOREIGN KEY (role_id)
-        REFERENCES role(id)
+    INDEX roles_ind (roles_id),
+    FOREIGN KEY (roles_id)
+        REFERENCES roles(id)
 		ON UPDATE CASCADE
         ON DELETE CASCADE
 );

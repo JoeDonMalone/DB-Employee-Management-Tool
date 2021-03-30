@@ -20,7 +20,25 @@ const connection = mysql.createConnection({
 
 
 const viewDepts = () => {
-    connection.query('SELECT * FROM departments', (err, res) => {
+    connection.query('SELECT d.name FROM departments d', (err, res) => {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.table(res);
+    connection.end();
+  });
+}
+
+const viewRoles = () => {
+    connection.query('SELECT r.title, r.salary FROM roles r JOIN', (err, res) => {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.table(res);
+    connection.end();
+  });
+}
+
+const viewEmployees = () => {
+    connection.query('SELECT e.first_name, e.last_name,  FROM employees e', (err, res) => {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.table(res);
@@ -78,7 +96,6 @@ function askQuestions() {
 
 connection.connect((err) => {
   if (err) throw err;
-  // viewDepts();
   askQuestions();
 });
 
