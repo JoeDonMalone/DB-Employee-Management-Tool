@@ -31,10 +31,10 @@
 
 
 
-// INSERT INTO `emt_db`.`roles` (`id`, `title`, `salary`, `departments_id`) VALUES ('1', 'Manager', '100000', '1');
-// INSERT INTO `emt_db`.`roles` (`id`, `title`, `salary`, `departments_id`) VALUES ('2', 'Engineer', '89000', '1');
-// INSERT INTO `emt_db`.`roles` (`id`, `title`, `salary`, `departments_id`) VALUES ('3', 'Intern', '24000', '1');
-// INSERT INTO `emt_db`.`roles` (`id`, `title`, `salary`, `departments_id`) VALUES ('4', 'Janitor', '42000', '1');
-// INSERT INTO `emt_db`.`roles` (`id`, `title`, `salary`, `departments_id`) VALUES ('5', 'CEO', '500000', '1');
-// INSERT INTO `emt_db`.`roles` (`id`, `title`, `salary`, `departments_id`) VALUES ('6', 'Ops Lead', '69500', '1');
-// INSERT INTO `emt_db`.`roles` (`id`, `title`, `salary`, `departments_id`) VALUES ('7', 'Maint Lead', '59500', '1');
+// INSERT INTO `emt_db`.`roles` (`title`, `salary`, `departments_id`) VALUES ('Manager', '100000', '1');
+// INSERT INTO `emt_db`.`roles` (`title`, `salary`, `departments_id`) VALUES ('Engineer', '89000', '1');
+// INSERT INTO `emt_db`.`roles` (`title`, `salary`, `departments_id`) VALUES ('Intern', '24000', '1');
+// INSERT INTO `emt_db`.`roles` (`title`, `salary`, `departments_id`) VALUES ('Janitor', '42000', '1');
+// INSERT INTO `emt_db`.`roles` (`title`, `salary`, `departments_id`) VALUES ('CEO', '500000', '1');
+// INSERT INTO `emt_db`.`roles` (`title`, `salary`, `departments_id`) VALUES ('Ops Lead', '69500', '1');
+// INSERT INTO `emt_db`.`roles` (`title`, `salary`, `departments_id`) VALUES ('Maint Lead', '59500', '1');

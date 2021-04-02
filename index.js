@@ -22,11 +22,49 @@ const connection = mysql.createConnection({
 const viewDepts = () => {
     connection.query('SELECT d.name FROM departments d', (err, res) => {
     if (err) throw err;
-    // Log all results of the SELECT statement
     console.table(res);
-    connection.end();
   });
 }
+
+const addDept = () => {
+  q.prompt([
+    {
+      type: 'input', 
+      name: 'deptName',
+      message: 'What is the name of the department you would like to add'
+    }
+  ])
+  .then((answers) => {
+    let query = `INSERT INTO departments(name) VALUES("${answers.deptName}")`
+    connection.query(query, (err, res) => {
+    if (err) throw err;
+    // console.table(res);
+    });
+  })
+  .then( function () {
+    let questions = {
+      type: 'list',
+      name: 'objective',
+      message: 'What would you like to do?',
+      choices: [
+        'Add another Department', 
+        'Main Menu',
+        'QUIT'
+      ]
+    }
+    q.prompt(questions).then((answers) => {
+    switch(answers.objective) {
+      case 'Add another Department':
+        return (addDept());
+      case 'Main Menu':
+        return(askQuestions());
+      case 'QUIT':
+        return(connection.end());
+      }
+    })
+  })
+}
+
 
 const viewRoles = () => {
     connection.query('SELECT r.title, r.salary FROM roles r JOIN', (err, res) => {
@@ -67,30 +105,28 @@ function askQuestions() {
   q.prompt(questions).then((answers) => {
     switch(answers.objective) {
       case'Add a Department to the Database':
-      addDept();
+      return(addDept());
       case'Add a Role to the Database':
-      addRole();
+      return(addRole());
       case'Add an employee to the Database':
-      addEmployee();
+      return(addEmployee());
       case'View All Departments in the Database':
       return(viewDepts())
       case'View All Roles in the Database':
-      viewRoles();
+      return(viewRoles());
       case'View All Employees in the Database':
-      viewEmployees();
+      return(viewEmployees());
       case'Change the Roles of an Employee':
-      changeRoles();
+      return(changeRoles());
       case'QUIT':
-      console.log('Exited');
-      break;
-  };
-})
-.catch( error => {
-  if(error) {
-      console.log(error);
-  }
-})
-
+      return(connection.end());
+    };
+  })
+  .catch( error => {
+    if(error) {
+        console.log(error);
+    }
+  })
 }
 
 
