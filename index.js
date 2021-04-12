@@ -18,95 +18,65 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-async function getViewDepts() {
-  const result = await viewDepts();
-  console.log("\n")
-  console.table(result)
-  // logs();
-  // askQuestions();
-  
-  // connection.end();
+
+
+async function consoleLog (res) {
+  console.table(res)
 }
-
-
-// function viewDepts() {
-//   return new Promise((resolve, reject) => {
-//     connection.query('SELECT d.name FROM departments d', (err, res) => {
-//     return err ? reject(err) : resolve(res);
-//     });
-//   })
-// }
-
-// const addDept = (input) => {
-//   return new Promise((resolve, reject) => {
-//       let query = `INSERT INTO departments(name) VALUES("${input}")`
-//       connection.query(query, (err, res) => {
-//       return err ? reject(err) : resolve(res);
-//       })
-//   })
-// }
-
-// async function getAddDept(input) {
-//   const result = await addDept(input)
-//   depts = await viewDepts();
-//   // console.log(depts)
-
-// }
-
 async function addDept(input) {
   let query = `INSERT INTO departments(name) VALUES("${input}")`
   connection.query(query, (err, res) => {})
-  depts = await viewDepts();
-  console.table(depts)
+
+  await connection.query("SELECT d.name FROM departments d", async(err, res) => {
+    await consoleLog(res);
+  })
+  // console.table(depts)
 }
 async function viewDepts() {
   let query = 'SELECT d.name FROM departments d'
   connection.query(query, async (err, res) => {
-    console.table(res);
-    // console.log('\n');
-    // askQuestions();
-    return(res);
+   await consoleLog(res);
+    askQuestions();
   })
 }
 
-const addDeptPrompt = async () => {
- await q.prompt([
-      {
-        type: 'input', 
-        name: 'deptName',
-        message: 'What is the name(s) of the department you would like to add'
-      }
-    ])
-  .then(async(answers) => {
-    let departments = await addDept(answers.deptName);
-    console.table(departments);
-    console.log("\n");
+const addDeptQuestions = async () => {
+  await q.prompt([
+   {
+    type: 'input', 
+    name: 'deptName',
+    message: 'What is the name(s) of the department you would like to add'
+   }
+  ])
+  .then(async (answers) => {
+    await addDept(answers.deptName)
   })
-  .then( async function () {
+  .then(async () => {
     let questions = {
-      type: 'list',
-      name: 'objective',
-      message: 'What would you like to do?',
-      choices: [
-        'Add another Department', 
-        'Main Menu',
-        `QUIT 
-        
-        `
-      ]
-    }
-    q.prompt(questions).then((answers) => {
+    type: 'list',
+    name: 'objective',
+    message: 'What would you like to do?',
+    choices: [
+      'Add another Department', 
+      'Main Menu',
+      `QUIT
+      `
+    ]
+  };
+  await q.prompt(questions)
+  .then(answers => {
     switch(answers.objective) {
       case 'Add another Department':
-        return (addDeptPrompt());
+        return (addDeptQuestions());
       case 'Main Menu':
         return(askQuestions());
       case 'QUIT':
         return(connection.end());
-      }
-    })
+    }
+  })
   })
 }
+
 const viewRoles = async () => {
     let query = 'SELECT r.title, r.salary FROM roles r JOIN'
   await  connection.query(query, (err, res) => {
@@ -115,51 +85,52 @@ const viewRoles = async () => {
   });
 }
 
-// const addRole = () => {
-// q.prompt([
-//     {
-//       type: 'input', 
-//       name: 'roleName',
-//       message: 'What is the name(s) of the role you would like to add?'
-//     }, 
-//     {
-//       type: 'list',
-//       name: 'deptName',
-//       message: "To which department does the role belong?",
-//       choices: 
-
-//     }
-//   ])
-
-//   .then((answers) => {
-//     let query = `INSERT INTO roles(title, salary, departments_id) VALUES("${answers.roleName}","${answers.salary}", )`
-//     connection.query(query, (err, res) => {
-//       if (err) throw err;
-//     })
-//   })
-//   .then( function () {
-//     let questions = {
-//       type: 'list',
-//       name: 'objective',
-//       message: 'What would you like to do?',
-//       choices: [
-//         'Add another Role', 
-//         'Main Menu',
-//         'QUIT'
-//       ]
-//     }
-//     q.prompt(questions).then((answers) => {
-//     switch(answers.objective) {
-//       case 'Add another Role':
-//         return (addRole());
-//       case 'Main Menu':
-//         return(askQuestions());
-//       case 'QUIT':
-//         return(connection.end());
-//       }
-//     })
-//   })
-// }
+const addRole = () => {
+  const role
+q.prompt([
+  {
+    type: 'input', 
+    name: 'roleName',
+    message: 'What is the name(s) of the role you would like to add?'
+  }, 
+  {
+    type: 'list',
+    name: 'deptName',
+    message: "To which department does the role belong?",
+    choices: connect.query('SELECT d.name FROM departments d', (err, res) => {
+       console.table(res);
+      })
+  }
+])
+  .then((answers) => {
+    let query = `INSERT INTO roles(title, salary, departments_id) VALUES("${answers.roleName}","${answers.salary}", )`
+    connection.query(query, (err, res) => {
+      if (err) throw err;
+    })
+  })
+  .then( function () {
+    let questions = {
+      type: 'list',
+      name: 'objective',
+      message: 'What would you like to do?',
+      choices: [
+        'Add another Role', 
+        'Main Menu',
+        'QUIT'
+      ]
+    }
+    q.prompt(questions).then((answers) => {
+    switch(answers.objective) {
+      case 'Add another Role':
+        return (addRole());
+      case 'Main Menu':
+        return(askQuestions());
+      case 'QUIT':
+        return(connection.end());
+      }
+    })
+  })
+}
 
 const viewEmployees = () => {
     connection.query('SELECT e.first_name, e.last_name,  FROM employees e', (err, res) => {
@@ -191,7 +162,7 @@ async function askQuestions() {
   await q.prompt(questions).then((answers) => {
     switch(answers.objective) {
       case'Add a Department to the Database':
-      return(addDeptPrompt());
+      return(addDeptQuestions());
       case'View All Departments in the Database':
       return(viewDepts())
       case'Add a Role to the Database':
@@ -220,5 +191,3 @@ connection.connect((err) => {
   if (err) throw err;
   askQuestions();
 });
-
-
